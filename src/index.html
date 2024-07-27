@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
+    <title>Click Wheeler</title>
+
+    <script type="module" src="/build/click-wheeler.esm.js"></script>
+    <script nomodule src="/build/click-wheeler.js"></script>
+  </head>
+  <body>
+    <click-wheeler></click-wheeler>
+    <div id="report" style="white-space: pre-wrap;"></div>
+
+    <script>
+      const report = document.getElementById('report');
+      const clickWheeler = document.querySelector('click-wheeler');
+
+      clickWheeler.addEventListener('rotate', (e) => {
+        const { detail } = e;
+        const { direction, velocity, pressure } = detail;
+        report.innerHTML = `direction = ${direction}\nvelocity = ${velocity}\npressure = ${pressure}`;
+      });
+    </script>
+  </body>
+</html>

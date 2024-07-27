@@ -1,0 +1,28 @@
+{
+  "name": "click-wheeler",
+  "license": "MIT",
+  "version": "0.0.1",
+  "main": "./dist/components/click-wheeler.js",
+  "module": "./dist/components/click-wheeler.js",
+  "types": "./dist/components/click-wheeler.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/components/click-wheeler.js",
+      "types": "./dist/components/click-wheeler.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "stencil build",
+    "dev": "stencil build --dev --watch --serve",
+    "test": "stencil test --spec",
+    "generate": "stencil generate"
+  },
+  "devDependencies": {
+    "@stencil/core": "^4.7.0",
+    "@types/jest": "^29.5.6",
+    "@types/node": "20.14.12",
+    "jest": "^29.7.0",
+    "jest-cli": "^29.7.0",
+    "typescript": "^5.5.4"
+  }
+}

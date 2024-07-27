@@ -1,0 +1,21 @@
+.container {
+  width: 200px;
+  height: 200px;
+}
+
+.outer {
+  display: flex;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #f1f1f1;
+  border-radius: 50%;
+}
+
+.inner {
+  width: 40%;
+  height: 40%;
+  margin: auto;
+  background: white;
+  border-radius: 50%;
+}
