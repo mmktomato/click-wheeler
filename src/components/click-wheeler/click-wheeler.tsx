@@ -54,8 +54,15 @@ export class ClickWheeler {
       if (!this.prevPoint) {
         return;
       }
+      if (!e.currentTarget || !(e.currentTarget instanceof HTMLElement)) {
+        return null;
+      }
 
-      const area = hitTest(e, circleSize);
+      const area = hitTest(
+        { x: e.clientX, y: e.clientY },
+        e.currentTarget.getBoundingClientRect(),
+        circleSize,
+      );
       if (!area) {
         return;
       }

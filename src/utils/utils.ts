@@ -1,28 +1,35 @@
 type Area = "top" | "left" | "bottom" | "right";
 
-// TODO: write unit tests
-export const hitTest = (e: PointerEvent, circleSize: number): Area | null => {
-  if (!e.currentTarget || !(e.currentTarget instanceof HTMLElement)) {
-    return null;
-  }
+export interface Rect {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}
 
-  const bcRect = e.currentTarget.getBoundingClientRect();
-  const x = e.clientX - bcRect.left - (circleSize / 2);
-  const y = e.clientY - bcRect.top - (circleSize / 2);
+export const hitTest = (
+  point: Point,
+  boundingClientRect: Rect,
+  circleSize: number,
+): Area | null => {
+  const hitPointX = point.x - boundingClientRect.x;
+  const hitPointY = point.y - boundingClientRect.y;
   
-  // line1: -y = x
-  // line2: -y = -x
-  const isAboveLine1 = (y * -1) > x;
-  const isAboveLine2 = (y * -1) > (x * -1);
+  // line1: y = x
+  // line2: y = -x + diameter
+  // NOTE: Y-axis is inverted. (= Down is positive.)
+  const diameter = circleSize;
+  const largerThanLine1 = hitPointY > hitPointX
+  const largerThanLine2 = hitPointY > (hitPointX * -1) + diameter;
   
-  if (isAboveLine1 && isAboveLine2) return "top";
-  if (isAboveLine1 && !isAboveLine2) return "left";
-  if (!isAboveLine1 && !isAboveLine2) return "bottom";
-  if (!isAboveLine1 && isAboveLine2) return "right";
+  if (largerThanLine1 && largerThanLine2) return "bottom";
+  if (largerThanLine1 && !largerThanLine2) return "left";
+  if (!largerThanLine1 && !largerThanLine2) return "top";
+  if (!largerThanLine1 && largerThanLine2) return "right";
   return null;
 }
 
-export type Point = { x: number, y: number };
+export interface Point { x: number, y: number };
 export type Direction = "clockwise" | "counter-clockwise";
 
 export const getDirection = (
