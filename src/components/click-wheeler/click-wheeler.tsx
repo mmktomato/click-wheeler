@@ -1,8 +1,10 @@
 import {
   Component,
+  Element,
   Event,
   EventEmitter,
   h,
+  Prop,
  } from '@stencil/core';
 
 import {
@@ -12,10 +14,6 @@ import {
   type Point,
   type Direction,
 } from "../../utils/utils";
-
-// TODO: This value should be passed as a prop.
-// TODO: Set this value to CSS.
-const circleSize = 200;
 
 interface RotateEventDetail {
   direction: Direction;
@@ -31,6 +29,10 @@ interface RotateEventDetail {
 export class ClickWheeler {
   private prevPoint: Point | undefined = undefined;
 
+  @Prop() size: number = 200;
+
+  @Element() hostElement?: HTMLElement;
+
   @Event({
     eventName: 'rotate',
     bubbles: true,
@@ -38,6 +40,10 @@ export class ClickWheeler {
     composed: true,
   })
   private rotateEvent: EventEmitter<RotateEventDetail> | undefined;
+
+  connectedCallback() {
+    this.hostElement?.style.setProperty("--circle-size", `${this.size}px`);
+  }
 
   private onInnerClick = () => {
     // TODO: fix this: Emit event
@@ -61,7 +67,7 @@ export class ClickWheeler {
       const area = hitTest(
         { x: e.clientX, y: e.clientY },
         e.currentTarget.getBoundingClientRect(),
-        circleSize,
+        this.size,
       );
       if (!area) {
         return;

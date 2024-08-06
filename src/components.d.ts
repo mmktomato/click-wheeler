@@ -7,6 +7,7 @@
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
     interface ClickWheeler {
+        "size": number;
     }
 }
 export interface ClickWheelerCustomEvent<T> extends CustomEvent<T> {
@@ -38,6 +39,7 @@ declare global {
 declare namespace LocalJSX {
     interface ClickWheeler {
         "onRotate"?: (event: ClickWheelerCustomEvent<any>) => void;
+        "size"?: number;
     }
     interface IntrinsicElements {
         "click-wheeler": ClickWheeler;
