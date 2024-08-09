@@ -14,6 +14,9 @@ import {
   type Point,
   type Direction,
 } from "../../utils/utils";
+import PlayPauseIcon from "../../assets/play-pause.svg";
+import MenuIcon from "../../assets/menu.svg";
+import ForwardIcon from "../../assets/forward.svg";
 
 interface RotateEventDetail {
   direction: Direction;
@@ -97,6 +100,10 @@ export class ClickWheeler {
             onClick={this.onInnerClick}
             onPointerMove={this.onInnerPointerMove}
           />
+          <div class="icon playPauseIcon" innerHTML={PlayPauseIcon} />
+          <div class="icon menuIcon" innerHTML={MenuIcon} />
+          <div class="icon backwardIcon" innerHTML={ForwardIcon} />
+          <div class="icon forwardIcon" innerHTML={ForwardIcon} />
         </div>
       </div>
     )

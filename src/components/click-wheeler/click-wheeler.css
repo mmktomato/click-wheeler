@@ -19,3 +19,31 @@
   background: white;
   border-radius: 50%;
 }
+
+.icon {
+  display: flex;
+  position: absolute;
+  color: #ccc;
+  user-select: none;
+}
+
+.playPauseIcon {
+  top: 85%;
+  left: calc(50% - 12px);
+}
+
+.menuIcon {
+  top: calc(15% - 16px);
+  left: calc(50% - 21px);
+}
+
+.backwardIcon {
+  top: calc(50% - 10px);
+  left: calc(15% - 20px);
+  transform: rotate(180deg);
+}
+
+.forwardIcon {
+  top: calc(50% - 10px);
+  left: 85%;
+}
