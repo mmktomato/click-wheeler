@@ -17,6 +17,7 @@ export interface ClickWheelerCustomEvent<T> extends CustomEvent<T> {
 declare global {
     interface HTMLClickWheelerElementEventMap {
         "rotate": any;
+        "tap": any;
     }
     interface HTMLClickWheelerElement extends Components.ClickWheeler, HTMLStencilElement {
         addEventListener<K extends keyof HTMLClickWheelerElementEventMap>(type: K, listener: (this: HTMLClickWheelerElement, ev: ClickWheelerCustomEvent<HTMLClickWheelerElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -39,6 +40,7 @@ declare global {
 declare namespace LocalJSX {
     interface ClickWheeler {
         "onRotate"?: (event: ClickWheelerCustomEvent<any>) => void;
+        "onTap"?: (event: ClickWheelerCustomEvent<any>) => void;
         "size"?: number;
     }
     interface IntrinsicElements {

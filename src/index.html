@@ -19,7 +19,13 @@
       clickWheeler.addEventListener('rotate', (e) => {
         const { detail } = e;
         const { direction, velocity, pressure } = detail;
-        report.innerHTML = `direction = ${direction}\nvelocity = ${velocity}\npressure = ${pressure}`;
+        report.textContent = `direction = ${direction}\nvelocity = ${velocity}\npressure = ${pressure}`;
+      });
+
+      clickWheeler.addEventListener('tap', (e) => {
+        const { detail } = e;
+        const { type, tapArea } = detail;
+        report.textContent = `type = ${type}\ntapArea = ${tapArea}`;
       });
     </script>
   </body>

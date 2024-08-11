@@ -1,4 +1,4 @@
-type Area = "top" | "left" | "bottom" | "right";
+export type Area = "top" | "left" | "bottom" | "right";
 
 export interface Rect {
   x: number;
