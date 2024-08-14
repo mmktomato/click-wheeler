@@ -20,7 +20,6 @@ import {
   hitTest,
   getDirection,
   getDistance,
-  disablePullToRefresh,
   type Area,
   type Point,
 } from "../../utils/utils";
@@ -58,6 +57,13 @@ export class ClickWheeler {
 
   connectedCallback() {
     this.hostElement?.style.setProperty("--circle-size", `${this.size}px`);
+
+    this.hostElement?.removeEventListener("touchmove", this.disablePullToRefresh);
+    this.hostElement?.addEventListener("touchmove", this.disablePullToRefresh, { passive: false });
+  }
+
+  private disablePullToRefresh = (e: TouchEvent) => {
+    e.preventDefault();
   }
 
   private getArea = (e: PointerEvent): Area | null => {
@@ -73,7 +79,6 @@ export class ClickWheeler {
 
   // TODO: debounce
   private onOuterPointerMove = (e: PointerEvent) => {
-    disablePullToRefresh(e);
     try {
       if (!this.prevPoint) {
         return;
@@ -112,7 +117,6 @@ export class ClickWheeler {
   }
 
   private onInnerPointerMove = (e: PointerEvent) => {
-    disablePullToRefresh(e);
     handlePointerMoveForTap(e, this.longTapTimer);
   }
 
@@ -135,7 +139,6 @@ export class ClickWheeler {
   }
 
   private onIconPointerMove = (e: PointerEvent) => {
-    disablePullToRefresh(e);
     handlePointerMoveForTap(e, this.longTapTimer);
   }
 
