@@ -20,6 +20,7 @@ import {
   hitTest,
   getDirection,
   getDistance,
+  disablePullToRefresh,
   type Area,
   type Point,
 } from "../../utils/utils";
@@ -72,6 +73,7 @@ export class ClickWheeler {
 
   // TODO: debounce
   private onOuterPointerMove = (e: PointerEvent) => {
+    disablePullToRefresh(e);
     try {
       if (!this.prevPoint) {
         return;
@@ -110,6 +112,7 @@ export class ClickWheeler {
   }
 
   private onInnerPointerMove = (e: PointerEvent) => {
+    disablePullToRefresh(e);
     handlePointerMoveForTap(e, this.longTapTimer);
   }
 
@@ -132,6 +135,7 @@ export class ClickWheeler {
   }
 
   private onIconPointerMove = (e: PointerEvent) => {
+    disablePullToRefresh(e);
     handlePointerMoveForTap(e, this.longTapTimer);
   }
 
