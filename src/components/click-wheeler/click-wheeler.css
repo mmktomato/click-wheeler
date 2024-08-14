@@ -1,7 +1,10 @@
+:host {
+  overscroll-behavior-y: none;
+}
+
 .container {
   width: var(--circle-size);
   height: var(--circle-size);
-  overscroll-behavior-y: none;
 }
 
 .outer {
