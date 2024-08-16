@@ -1,6 +1,6 @@
 import {
   Component,
-  Element,
+  Element as StencilElement,
   Event,
   EventEmitter,
   h,
@@ -37,7 +37,7 @@ export class ClickWheeler {
   private longTapTimer: number | undefined = undefined;
   private pointerDownTarget: "inner" | "icon" | undefined = undefined;
   @Prop() size: number = 200;
-  @Element() hostElement?: HTMLElement;
+  @StencilElement() hostElement?: HTMLElement;
 
   @Event({
     eventName: 'rotate',
@@ -77,6 +77,19 @@ export class ClickWheeler {
     );
   }
 
+  private releasePointerCapture = (e: PointerEvent) => {
+    if (e.target && e.target instanceof Element) {
+      const hasPointerCapture = e.target.hasPointerCapture(e.pointerId)
+      if (hasPointerCapture) {
+        e.target.releasePointerCapture(e.pointerId)
+      }
+    }
+  }
+
+  private onOuterPointerDown = (e: PointerEvent) => {
+    this.releasePointerCapture(e);
+  }
+
   // TODO: debounce
   private onOuterPointerMove = (e: PointerEvent) => {
     try {
@@ -105,6 +118,7 @@ export class ClickWheeler {
 
   private onInnerPointerDown = (e: PointerEvent) => {
     this.pointerDownTarget = "inner";
+    this.releasePointerCapture(e);
     this.longTapTimer = handlePointerDownForTap(e, this.tapEvent, "center", () => {
       this.longTapTimer = undefined;
     });
@@ -127,6 +141,7 @@ export class ClickWheeler {
 
   private onIconPointerDown = (e: PointerEvent, tapArea: IconTapArea) => {
     this.pointerDownTarget = "icon";
+    this.releasePointerCapture(e);
     this.longTapTimer = handlePointerDownForTap(e, this.tapEvent, tapArea, () => {
       this.longTapTimer = undefined;
     });
@@ -152,6 +167,7 @@ export class ClickWheeler {
       <div class="container">
         <div
           class="outer"
+          onPointerDown={this.onOuterPointerDown}
           onPointerMove={this.onOuterPointerMove}
         >
           <div
