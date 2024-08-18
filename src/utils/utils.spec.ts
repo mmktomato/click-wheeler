@@ -1,10 +1,4 @@
-import {
-  getDirection,
-  getDistance,
-  hitTest,
-  type Point,
-  type Rect,
-} from "./utils";
+import { getDirection, getDistance, hitTest, type Point, type Rect } from "./utils";
 
 const createCircleElementRect = (circleSize: number, circleOffset: Point): Rect => {
   return {
@@ -13,11 +7,11 @@ const createCircleElementRect = (circleSize: number, circleOffset: Point): Rect 
     width: circleSize,
     height: circleSize,
   };
-}
+};
 
 describe("hitTest", () => {
   const circleSize = 300;
-  const circleOffset: Point  = { x: 50, y: 50 }; 
+  const circleOffset: Point = { x: 50, y: 50 };
   const rect = createCircleElementRect(circleSize, circleOffset);
 
   it.each`
@@ -27,11 +21,7 @@ describe("hitTest", () => {
     ${150} | ${250} | ${"bottom"}
     ${10}  | ${150} | ${"left"}
   `("should return correct area ($expected)", ({ x, y, expected }) => {
-    const area = hitTest(
-      { x: circleOffset.x + x, y: circleOffset.y + y },
-      rect,
-      circleSize,
-    );
+    const area = hitTest({ x: circleOffset.x + x, y: circleOffset.y + y }, rect, circleSize);
     expect(area).toBe(expected);
   });
 });

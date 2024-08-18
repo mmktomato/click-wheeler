@@ -1,0 +1,14 @@
+package.json
+package-lock.json
+
+*.log
+*.d.ts
+*.md
+
+dist
+node_modules
+.github
+.stencil
+www
+
+src/assets

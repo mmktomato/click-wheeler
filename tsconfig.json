@@ -4,10 +4,7 @@
     "allowUnreachableCode": false,
     "declaration": false,
     "experimentalDecorators": true,
-    "lib": [
-      "dom",
-      "ES2022"
-    ],
+    "lib": ["dom", "ES2022"],
     "moduleResolution": "node",
     "module": "esnext",
     "target": "ES2022",
@@ -15,12 +12,8 @@
     "noUnusedParameters": true,
     "strict": true,
     "jsx": "react",
-    "jsxFactory": "h",
+    "jsxFactory": "h"
   },
-  "include": [
-    "src"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["src"],
+  "exclude": ["node_modules"]
 }

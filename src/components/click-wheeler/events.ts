@@ -27,7 +27,7 @@ export const handlePointerDownForTap = (
     onEmitting();
     tapEvent?.emit({ type: "long-tap", tapArea });
   }, 1000);
-}
+};
 
 export const handlePointerUpForTap = (
   e: PointerEvent,
@@ -40,18 +40,13 @@ export const handlePointerUpForTap = (
     window.clearTimeout(longTapTimer);
     tapEvent?.emit({ type: "tap", tapArea });
   }
-}
+};
 
-export const handlePointerMoveForTap = (
-  e: PointerEvent,
-  longTapTimer: number | undefined,
-) => {
+export const handlePointerMoveForTap = (e: PointerEvent, longTapTimer: number | undefined) => {
   e.stopPropagation();
   window.clearTimeout(longTapTimer);
-}
+};
 
-export const handlePointerLeaveForTap = (
-  e: PointerEvent,
-) => {
+export const handlePointerLeaveForTap = (e: PointerEvent) => {
   e.stopPropagation();
-}
+};

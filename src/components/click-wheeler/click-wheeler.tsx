@@ -1,11 +1,4 @@
-import {
-  Component,
-  Element as StencilElement,
-  Event,
-  EventEmitter,
-  h,
-  Prop,
- } from '@stencil/core';
+import { Component, Element as StencilElement, Event, EventEmitter, h, Prop } from "@stencil/core";
 
 import {
   type RotateEventDetail,
@@ -14,22 +7,16 @@ import {
   handlePointerDownForTap,
   handlePointerMoveForTap,
   handlePointerLeaveForTap,
-  type IconTapArea
+  type IconTapArea,
 } from "./events";
-import {
-  hitTest,
-  getDirection,
-  getDistance,
-  type Area,
-  type Point,
-} from "../../utils/utils";
+import { hitTest, getDirection, getDistance, type Area, type Point } from "../../utils/utils";
 import PlayPauseIcon from "../../assets/play-pause.svg";
 import MenuIcon from "../../assets/menu.svg";
 import ForwardIcon from "../../assets/forward.svg";
 
 @Component({
-  tag: 'click-wheeler',
-  styleUrl: 'click-wheeler.css',
+  tag: "click-wheeler",
+  styleUrl: "click-wheeler.css",
   shadow: true,
 })
 export class ClickWheeler {
@@ -40,7 +27,7 @@ export class ClickWheeler {
   @StencilElement() hostElement?: HTMLElement;
 
   @Event({
-    eventName: 'rotate',
+    eventName: "rotate",
     bubbles: true,
     cancelable: true,
     composed: true,
@@ -48,7 +35,7 @@ export class ClickWheeler {
   private rotateEvent: EventEmitter<RotateEventDetail> | undefined;
 
   @Event({
-    eventName: 'tap',
+    eventName: "tap",
     bubbles: true,
     cancelable: true,
     composed: true,
@@ -64,31 +51,29 @@ export class ClickWheeler {
 
   private disablePullToRefresh = (e: TouchEvent) => {
     e.preventDefault();
-  }
+  };
 
   private getArea = (e: PointerEvent): Area | null => {
     if (!e.currentTarget || !(e.currentTarget instanceof HTMLElement)) {
       return null;
     }
-    return hitTest(
-      { x: e.clientX, y: e.clientY },
-      e.currentTarget.getBoundingClientRect(),
-      this.size,
-    );
-  }
+    const hitPoint: Point = { x: e.clientX, y: e.clientY };
+    const boundingClientRect = e.currentTarget.getBoundingClientRect();
+    return hitTest(hitPoint, boundingClientRect, this.size);
+  };
 
   private releasePointerCapture = (e: PointerEvent) => {
     if (e.target && e.target instanceof Element) {
-      const hasPointerCapture = e.target.hasPointerCapture(e.pointerId)
+      const hasPointerCapture = e.target.hasPointerCapture(e.pointerId);
       if (hasPointerCapture) {
-        e.target.releasePointerCapture(e.pointerId)
+        e.target.releasePointerCapture(e.pointerId);
       }
     }
-  }
+  };
 
   private onOuterPointerDown = (e: PointerEvent) => {
     this.releasePointerCapture(e);
-  }
+  };
 
   // TODO: debounce
   private onOuterPointerMove = (e: PointerEvent) => {
@@ -114,7 +99,7 @@ export class ClickWheeler {
     } finally {
       this.prevPoint = { x: e.x, y: e.y };
     }
-  }
+  };
 
   private onInnerPointerDown = (e: PointerEvent) => {
     this.pointerDownTarget = "inner";
@@ -122,22 +107,22 @@ export class ClickWheeler {
     this.longTapTimer = handlePointerDownForTap(e, this.tapEvent, "center", () => {
       this.longTapTimer = undefined;
     });
-  }
+  };
 
   private onInnerPointerUp = (e: PointerEvent) => {
     if (this.pointerDownTarget === "inner") {
       handlePointerUpForTap(e, this.tapEvent, this.longTapTimer, "center");
     }
-  }
+  };
 
   private onInnerPointerMove = (e: PointerEvent) => {
     handlePointerMoveForTap(e, this.longTapTimer);
-  }
+  };
 
   private onInnerPointerLeave = (e: PointerEvent) => {
     this.pointerDownTarget = undefined;
     handlePointerLeaveForTap(e);
-  }
+  };
 
   private onIconPointerDown = (e: PointerEvent, tapArea: IconTapArea) => {
     this.pointerDownTarget = "icon";
@@ -145,22 +130,22 @@ export class ClickWheeler {
     this.longTapTimer = handlePointerDownForTap(e, this.tapEvent, tapArea, () => {
       this.longTapTimer = undefined;
     });
-  }
+  };
 
   private onIconPointerUp = (e: PointerEvent, tapArea: IconTapArea) => {
     if (this.pointerDownTarget === "icon") {
       handlePointerUpForTap(e, this.tapEvent, this.longTapTimer, tapArea);
     }
-  }
+  };
 
   private onIconPointerMove = (e: PointerEvent) => {
     handlePointerMoveForTap(e, this.longTapTimer);
-  }
+  };
 
   private onIconPointerLeave = (e: PointerEvent) => {
     this.pointerDownTarget = undefined;
     handlePointerLeaveForTap(e);
-  }
+  };
 
   render() {
     return (
@@ -180,37 +165,37 @@ export class ClickWheeler {
           <div
             class="icon playPauseIcon"
             innerHTML={PlayPauseIcon}
-            onPointerDown={(e) => this.onIconPointerDown(e, "playPause")}
-            onPointerUp={(e) => this.onIconPointerUp(e, "playPause")}
+            onPointerDown={e => this.onIconPointerDown(e, "playPause")}
+            onPointerUp={e => this.onIconPointerUp(e, "playPause")}
             onPointerMove={this.onIconPointerMove}
             onPointerLeave={this.onIconPointerLeave}
           />
           <div
             class="icon menuIcon"
             innerHTML={MenuIcon}
-            onPointerDown={(e) => this.onIconPointerDown(e, "menu")}
-            onPointerUp={(e) => this.onIconPointerUp(e, "menu")}
+            onPointerDown={e => this.onIconPointerDown(e, "menu")}
+            onPointerUp={e => this.onIconPointerUp(e, "menu")}
             onPointerMove={this.onIconPointerMove}
             onPointerLeave={this.onIconPointerLeave}
           />
           <div
             class="icon backwardIcon"
             innerHTML={ForwardIcon}
-            onPointerDown={(e) => this.onIconPointerDown(e, "backward")}
-            onPointerUp={(e) => this.onIconPointerUp(e, "backward")}
+            onPointerDown={e => this.onIconPointerDown(e, "backward")}
+            onPointerUp={e => this.onIconPointerUp(e, "backward")}
             onPointerMove={this.onIconPointerMove}
             onPointerLeave={this.onIconPointerLeave}
           />
           <div
             class="icon forwardIcon"
             innerHTML={ForwardIcon}
-            onPointerDown={(e) => this.onIconPointerDown(e, "forward")}
-            onPointerUp={(e) => this.onIconPointerUp(e, "forward")}
+            onPointerDown={e => this.onIconPointerDown(e, "forward")}
+            onPointerUp={e => this.onIconPointerUp(e, "forward")}
             onPointerMove={this.onIconPointerMove}
             onPointerLeave={this.onIconPointerLeave}
           />
         </div>
       </div>
-    )
+    );
   }
 }
