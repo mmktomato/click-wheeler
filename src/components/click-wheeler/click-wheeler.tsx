@@ -101,6 +101,10 @@ export class ClickWheeler {
     }
   };
 
+  private onOuterPointerLeave = () => {
+    this.prevPoint = undefined;
+  };
+
   private onInnerPointerDown = (e: PointerEvent) => {
     this.pointerDownTarget = "inner";
     this.releasePointerCapture(e);
@@ -154,6 +158,7 @@ export class ClickWheeler {
           class="outer"
           onPointerDown={this.onOuterPointerDown}
           onPointerMove={this.onOuterPointerMove}
+          onPointerLeave={this.onOuterPointerLeave}
         >
           <div
             class="inner"
