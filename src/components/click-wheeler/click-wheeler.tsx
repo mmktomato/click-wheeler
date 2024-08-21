@@ -63,6 +63,7 @@ export class ClickWheeler {
   };
 
   private releasePointerCapture = (e: PointerEvent) => {
+    // https://stackoverflow.com/a/70737325/1115662
     if (e.target && e.target instanceof Element) {
       const hasPointerCapture = e.target.hasPointerCapture(e.pointerId);
       if (hasPointerCapture) {
@@ -75,7 +76,6 @@ export class ClickWheeler {
     this.releasePointerCapture(e);
   };
 
-  // TODO: debounce
   private onOuterPointerMove = (e: PointerEvent) => {
     try {
       if (!this.prevPoint) {
@@ -88,14 +88,18 @@ export class ClickWheeler {
       }
 
       const p: Point = { x: e.x, y: e.y };
+      const velocity = Math.round(getDistance(this.prevPoint, p) * 10) / 10;
+      if (velocity < 1.7) {
+        return;
+      }
+
       const dir = getDirection(area, this.prevPoint, p);
       if (!dir) {
         return;
       }
 
-      const velocity = Math.round(getDistance(this.prevPoint, p));
-      const pressure = Math.round(e.pressure * 10) / 10;
-      this.rotateEvent?.emit({ direction: dir, velocity, pressure });
+      // const pressure = Math.round(e.pressure * 10) / 10;
+      this.rotateEvent?.emit({ direction: dir, velocity });
     } finally {
       this.prevPoint = { x: e.x, y: e.y };
     }

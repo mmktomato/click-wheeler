@@ -5,7 +5,6 @@ import { type Direction } from "../../utils/utils";
 export interface RotateEventDetail {
   direction: Direction;
   velocity: number;
-  pressure: number;
 }
 
 export type IconTapArea = "forward" | "backward" | "playPause" | "menu";
