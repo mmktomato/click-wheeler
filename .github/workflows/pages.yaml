@@ -22,7 +22,9 @@ jobs:
       - name: Test
         run: npm test
       - name: Build
-        run: npm run demo
+        run: |
+          npm run build
+          npm run demo
       - name: Upload
         uses: actions/upload-pages-artifact@v3
         with:
