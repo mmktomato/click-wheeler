@@ -89,7 +89,7 @@ export class ClickWheeler {
 
       const p: Point = { x: e.x, y: e.y };
       const velocity = Math.round(getDistance(this.prevPoint, p) * 10) / 10;
-      if (velocity < 1.7) {
+      if (velocity < 4.8) {
         return;
       }
 

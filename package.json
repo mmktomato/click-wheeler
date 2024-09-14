@@ -12,8 +12,9 @@
     }
   },
   "scripts": {
-    "build": "stencil build",
-    "dev": "stencil build --dev --watch --serve",
+    "build": "stencil build -c stencil.config.components.ts",
+    "dev": "stencil build -c stencil.config.dev.ts --dev --watch --serve",
+    "demo": "stencil build -c stencil.config.dev.ts",
     "test": "stencil test --spec",
     "generate": "stencil generate",
     "format": "prettier . --write"

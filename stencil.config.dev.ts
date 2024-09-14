@@ -3,15 +3,12 @@ import { inlineSvg } from "stencil-inline-svg";
 
 export const config: Config = {
   namespace: "click-wheeler",
+  srcDir: "./demo",
   outputTargets: [
-    {
-      type: "dist-custom-elements",
-      customElementsExportBehavior: "auto-define-custom-elements",
-      externalRuntime: false,
-    },
     {
       type: "www",
       serviceWorker: null, // disable service workers
+      copy: [{ src: "index.js" }, { src: "index.css" }],
     },
   ],
   plugins: [inlineSvg()],
