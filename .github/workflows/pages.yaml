@@ -19,12 +19,12 @@ jobs:
           cache: npm
       - name: Install
         run: npm install
-      - name: Test
-        run: npm test
       - name: Build
         run: |
           npm run build
           npm run demo
+      - name: Test
+        run: npm test
       - name: Upload
         uses: actions/upload-pages-artifact@v3
         with:
