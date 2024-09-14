@@ -15,7 +15,7 @@
     "build": "stencil build -c stencil.config.components.ts",
     "dev": "stencil build -c stencil.config.dev.ts --dev --watch --serve",
     "demo": "stencil build -c stencil.config.dev.ts",
-    "test": "stencil test --spec",
+    "test": "stencil test -c stencil.config.components.ts --spec",
     "generate": "stencil generate",
     "format": "prettier . --write"
   },
