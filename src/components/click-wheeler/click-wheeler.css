@@ -23,27 +23,28 @@
 .icon {
   display: flex;
   position: absolute;
+  padding: 8px;
   color: #ccc;
   user-select: none;
 }
 
 .playPauseIcon {
-  top: 85%;
-  left: calc(50% - 12px);
+  top: calc(85% - 8px);
+  left: calc(50% - 20px);
 }
 
 .menuIcon {
-  top: calc(15% - 16px);
-  left: calc(50% - 21px);
+  top: calc(15% - 24px);
+  left: calc(50% - 29px);
 }
 
 .backwardIcon {
-  top: calc(50% - 10px);
-  left: calc(15% - 20px);
+  top: calc(50% - 18px);
+  left: calc(15% - 28px);
   transform: rotate(180deg);
 }
 
 .forwardIcon {
-  top: calc(50% - 10px);
-  left: 85%;
+  top: calc(50% - 18px);
+  left: calc(85% - 8px);
 }

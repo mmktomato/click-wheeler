@@ -6,7 +6,6 @@ import {
   handlePointerUpForTap,
   handlePointerDownForTap,
   handlePointerMoveForTap,
-  handlePointerLeaveForTap,
   type IconTapArea,
 } from "./events";
 import { hitTest, getDirection, getDistance, type Area, type Point } from "../../utils/utils";
@@ -89,7 +88,7 @@ export class ClickWheeler {
 
       const p: Point = { x: e.x, y: e.y };
       const velocity = Math.round(getDistance(this.prevPoint, p) * 10) / 10;
-      if (velocity < 4.8) {
+      if (velocity < 3.8) {
         return;
       }
 
@@ -110,49 +109,55 @@ export class ClickWheeler {
   };
 
   private onInnerPointerDown = (e: PointerEvent) => {
+    e.stopPropagation();
     this.pointerDownTarget = "inner";
     this.releasePointerCapture(e);
-    this.longTapTimer = handlePointerDownForTap(e, this.tapEvent, "center", () => {
+    this.longTapTimer = handlePointerDownForTap(this.tapEvent, "center", () => {
       this.longTapTimer = undefined;
     });
   };
 
   private onInnerPointerUp = (e: PointerEvent) => {
+    e.stopPropagation();
     if (this.pointerDownTarget === "inner") {
-      handlePointerUpForTap(e, this.tapEvent, this.longTapTimer, "center");
+      handlePointerUpForTap(this.tapEvent, this.longTapTimer, "center");
     }
   };
 
   private onInnerPointerMove = (e: PointerEvent) => {
+    e.stopPropagation();
     handlePointerMoveForTap(e, this.longTapTimer);
   };
 
   private onInnerPointerLeave = (e: PointerEvent) => {
+    e.stopPropagation();
     this.pointerDownTarget = undefined;
-    handlePointerLeaveForTap(e);
   };
 
   private onIconPointerDown = (e: PointerEvent, tapArea: IconTapArea) => {
+    e.stopPropagation();
     this.pointerDownTarget = "icon";
     this.releasePointerCapture(e);
-    this.longTapTimer = handlePointerDownForTap(e, this.tapEvent, tapArea, () => {
+    this.longTapTimer = handlePointerDownForTap(this.tapEvent, tapArea, () => {
       this.longTapTimer = undefined;
     });
   };
 
   private onIconPointerUp = (e: PointerEvent, tapArea: IconTapArea) => {
+    e.stopPropagation();
     if (this.pointerDownTarget === "icon") {
-      handlePointerUpForTap(e, this.tapEvent, this.longTapTimer, tapArea);
+      handlePointerUpForTap(this.tapEvent, this.longTapTimer, tapArea);
     }
   };
 
   private onIconPointerMove = (e: PointerEvent) => {
+    // e.stopPropagation();
     handlePointerMoveForTap(e, this.longTapTimer);
   };
 
   private onIconPointerLeave = (e: PointerEvent) => {
+    e.stopPropagation();
     this.pointerDownTarget = undefined;
-    handlePointerLeaveForTap(e);
   };
 
   render() {
