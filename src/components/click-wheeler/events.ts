@@ -37,6 +37,6 @@ export const handlePointerUpForTap = (
   }
 };
 
-export const handlePointerMoveForTap = (e: PointerEvent, longTapTimer: number | undefined) => {
+export const handlePointerMoveForTap = (longTapTimer: number | undefined) => {
   window.clearTimeout(longTapTimer);
 };

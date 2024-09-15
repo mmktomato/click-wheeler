@@ -8,7 +8,14 @@ import {
   handlePointerMoveForTap,
   type IconTapArea,
 } from "./events";
-import { hitTest, getDirection, getDistance, type Area, type Point } from "../../utils/utils";
+import {
+  hitTest,
+  getDirection,
+  type Area,
+  type Point,
+  type AccumulatedDistance,
+  getTotalDistance,
+} from "../../utils/utils";
 import PlayPauseIcon from "../../assets/play-pause.svg";
 import MenuIcon from "../../assets/menu.svg";
 import ForwardIcon from "../../assets/forward.svg";
@@ -20,6 +27,7 @@ import ForwardIcon from "../../assets/forward.svg";
 })
 export class ClickWheeler {
   private prevPoint: Point | undefined = undefined;
+  private accDistance: AccumulatedDistance | undefined = undefined;
   private longTapTimer: number | undefined = undefined;
   private pointerDownTarget: "inner" | "icon" | undefined = undefined;
   @Prop() size: number = 200;
@@ -87,18 +95,25 @@ export class ClickWheeler {
       }
 
       const p: Point = { x: e.x, y: e.y };
-      const velocity = Math.round(getDistance(this.prevPoint, p) * 10) / 10;
-      if (velocity < 3.8) {
+      const direction = getDirection(area, this.prevPoint, p);
+      if (!direction) {
         return;
       }
 
-      const dir = getDirection(area, this.prevPoint, p);
-      if (!dir) {
-        return;
+      if (!this.accDistance) {
+        this.accDistance = { distance: 0, direction };
       }
 
+      const totalDistance = getTotalDistance(this.prevPoint, p, direction, this.accDistance);
+      if (totalDistance.distance < 15) {
+        this.accDistance = totalDistance;
+        return;
+      }
+      this.accDistance = undefined;
+
+      const velocity = Math.round(totalDistance.distance * 10) / 10;
       // const pressure = Math.round(e.pressure * 10) / 10;
-      this.rotateEvent?.emit({ direction: dir, velocity });
+      this.rotateEvent?.emit({ direction, velocity });
     } finally {
       this.prevPoint = { x: e.x, y: e.y };
     }
@@ -106,6 +121,7 @@ export class ClickWheeler {
 
   private onOuterPointerLeave = () => {
     this.prevPoint = undefined;
+    this.accDistance = undefined;
   };
 
   private onInnerPointerDown = (e: PointerEvent) => {
@@ -126,7 +142,7 @@ export class ClickWheeler {
 
   private onInnerPointerMove = (e: PointerEvent) => {
     e.stopPropagation();
-    handlePointerMoveForTap(e, this.longTapTimer);
+    handlePointerMoveForTap(this.longTapTimer);
   };
 
   private onInnerPointerLeave = (e: PointerEvent) => {
@@ -150,9 +166,9 @@ export class ClickWheeler {
     }
   };
 
-  private onIconPointerMove = (e: PointerEvent) => {
+  private onIconPointerMove = () => {
     // e.stopPropagation();
-    handlePointerMoveForTap(e, this.longTapTimer);
+    handlePointerMoveForTap(this.longTapTimer);
   };
 
   private onIconPointerLeave = (e: PointerEvent) => {

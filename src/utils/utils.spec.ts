@@ -1,4 +1,13 @@
-import { getDirection, getDistance, hitTest, type Point, type Rect } from "./utils";
+import {
+  getDirection,
+  getDistance,
+  hitTest,
+  getTotalDistance,
+  type Point,
+  type Rect,
+  type Direction,
+  type AccumulatedDistance,
+} from "./utils";
 
 const createCircleElementRect = (circleSize: number, circleOffset: Point): Rect => {
   return {
@@ -52,6 +61,34 @@ describe("getDistance", () => {
     const from: Point = { x: 0, y: 0 };
     const to: Point = { x: 3, y: 4 };
     const distance = getDistance(from, to);
-    expect(distance).toBe(5);
+    expect(distance).toEqual(5);
+  });
+});
+
+describe("getTotalDistance", () => {
+  it("should return correct totalDistance (same direction)", () => {
+    const from: Point = { x: 0, y: 0 };
+    const to: Point = { x: 3, y: 4 };
+    const direction: Direction = "clockwise";
+    const accDistance: AccumulatedDistance = {
+      distance: 10,
+      direction: "clockwise",
+    };
+
+    const totalDistance = getTotalDistance(from, to, direction, accDistance);
+    expect(totalDistance).toEqual({ distance: 15, direction: "clockwise" } satisfies AccumulatedDistance);
+  });
+
+  it.each`
+    accDistance                                 | expected
+    ${{ distance: 10, direction: "clockwise" }} | ${{ distance: 5, direction: "clockwise" }}
+    ${{ distance: 3, direction: "clockwise" }}  | ${{ distance: 2, direction: "counter-clockwise" }}
+  `("should return correct totalDistance (different direction)", ({ accDistance, expected }) => {
+    const from: Point = { x: 0, y: 0 };
+    const to: Point = { x: 3, y: 4 };
+    const direction: Direction = "counter-clockwise";
+
+    const totalDistance = getTotalDistance(from, to, direction, accDistance);
+    expect(totalDistance).toEqual(expected);
   });
 });

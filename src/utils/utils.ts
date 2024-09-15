@@ -31,6 +31,11 @@ export interface Point {
 }
 export type Direction = "clockwise" | "counter-clockwise";
 
+export interface AccumulatedDistance {
+  distance: number;
+  direction: Direction;
+}
+
 export const getDirection = (area: Area, from: Point, to: Point): Direction | null => {
   const deltaX = to.x - from.x;
   const deltaY = to.y - from.y;
@@ -67,4 +72,30 @@ export const getDirection = (area: Area, from: Point, to: Point): Direction | nu
 
 export const getDistance = (from: Point, to: Point): number => {
   return Math.sqrt((to.x - from.x) ** 2 + (to.y - from.y) ** 2);
+};
+
+export const getTotalDistance = (
+  from: Point,
+  to: Point,
+  direction: Direction,
+  accDistance: AccumulatedDistance,
+): AccumulatedDistance => {
+  let distance = getDistance(from, to);
+
+  if (direction === accDistance.direction) {
+    distance += accDistance.distance;
+  } else {
+    distance = accDistance.distance - distance;
+  }
+
+  if (distance < 0) {
+    return {
+      distance: distance * -1,
+      direction: accDistance.direction === "clockwise" ? "counter-clockwise" : "clockwise",
+    };
+  }
+  return {
+    distance,
+    direction: accDistance.direction,
+  };
 };
