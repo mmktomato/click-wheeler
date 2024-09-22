@@ -5,7 +5,7 @@ import {
   type TapEventDetail,
   handlePointerUpForTap,
   handlePointerDownForTap,
-  handlePointerMoveForTap,
+  handlePointerLeaveForTap,
   type IconTapArea,
 } from "./events";
 import {
@@ -142,12 +142,12 @@ export class ClickWheeler {
 
   private onInnerPointerMove = (e: PointerEvent) => {
     e.stopPropagation();
-    handlePointerMoveForTap(this.longTapTimer);
   };
 
   private onInnerPointerLeave = (e: PointerEvent) => {
     e.stopPropagation();
     this.pointerDownTarget = undefined;
+    handlePointerLeaveForTap(this.longTapTimer);
   };
 
   private onIconPointerDown = (e: PointerEvent, tapArea: IconTapArea) => {
@@ -168,12 +168,12 @@ export class ClickWheeler {
 
   private onIconPointerMove = () => {
     // e.stopPropagation();
-    handlePointerMoveForTap(this.longTapTimer);
   };
 
   private onIconPointerLeave = (e: PointerEvent) => {
     e.stopPropagation();
     this.pointerDownTarget = undefined;
+    handlePointerLeaveForTap(this.longTapTimer);
   };
 
   render() {
