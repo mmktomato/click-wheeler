@@ -8,7 +8,7 @@ package-lock.json
 dist
 node_modules
 .github
-.stencil
 www
 
 src/assets
+public
