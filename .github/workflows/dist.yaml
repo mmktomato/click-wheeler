@@ -36,5 +36,5 @@ jobs:
       - name: Commit
         run: |
           git add .
-          git commit -m "Build new version"
-          git push
+          git commit --allow-empty -m "Build new version"
+          git push origin dist
