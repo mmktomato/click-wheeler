@@ -7,6 +7,10 @@ main {
   width: 280px;
 }
 
+#report {
+  white-space: pre-wrap;
+}
+
 #list {
   list-style: none;
   margin: 0;

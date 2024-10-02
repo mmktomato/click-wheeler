@@ -7,7 +7,11 @@ export interface Rect {
   height: number;
 }
 
-export const hitTest = (point: Point, boundingClientRect: Rect, circleSize: number): Area | null => {
+export const hitTest = (
+  point: Point,
+  boundingClientRect: Rect,
+  circleSize: number,
+): Area | null => {
   const hitPointX = point.x - boundingClientRect.x;
   const hitPointY = point.y - boundingClientRect.y;
 

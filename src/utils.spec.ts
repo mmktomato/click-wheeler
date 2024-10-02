@@ -1,3 +1,5 @@
+import { describe, expect, it } from "@jest/globals";
+
 import {
   getDirection,
   getDistance,
@@ -7,6 +9,7 @@ import {
   type Rect,
   type Direction,
   type AccumulatedDistance,
+  type Area,
 } from "./utils";
 
 const createCircleElementRect = (circleSize: number, circleOffset: Point): Rect => {
@@ -23,7 +26,12 @@ describe("hitTest", () => {
   const circleOffset: Point = { x: 50, y: 50 };
   const rect = createCircleElementRect(circleSize, circleOffset);
 
-  it.each`
+  type Params = {
+    x: number;
+    y: number;
+    expected: Area;
+  };
+  it.each<Params>`
     x      | y      | expected
     ${150} | ${10}  | ${"top"}
     ${250} | ${150} | ${"right"}
@@ -36,7 +44,13 @@ describe("hitTest", () => {
 });
 
 describe("getDirection", () => {
-  it.each`
+  type Params = {
+    area: Area;
+    from: Point;
+    to: Point;
+    expected: Direction | null;
+  };
+  it.each<Params>`
     area        | from                 | to                   | expected
     ${"top"}    | ${{ x: 80, y: 10 }}  | ${{ x: 80, y: 10 }}  | ${null}
     ${"top"}    | ${{ x: 80, y: 10 }}  | ${{ x: 90, y: 10 }}  | ${"clockwise"}
@@ -76,10 +90,17 @@ describe("getTotalDistance", () => {
     };
 
     const totalDistance = getTotalDistance(from, to, direction, accDistance);
-    expect(totalDistance).toEqual({ distance: 15, direction: "clockwise" } satisfies AccumulatedDistance);
+    expect(totalDistance).toEqual({
+      distance: 15,
+      direction: "clockwise",
+    } satisfies AccumulatedDistance);
   });
 
-  it.each`
+  type Params = {
+    accDistance: AccumulatedDistance;
+    expected: AccumulatedDistance;
+  };
+  it.each<Params>`
     accDistance                                 | expected
     ${{ distance: 10, direction: "clockwise" }} | ${{ distance: 5, direction: "clockwise" }}
     ${{ distance: 3, direction: "clockwise" }}  | ${{ distance: 2, direction: "counter-clockwise" }}
