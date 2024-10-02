@@ -1,6 +1,6 @@
 export { type ClickWheelerRotateEvent, type ClickWheelerTapEvent } from "./click-wheeler/events";
 
-export declare class ClickWheeler extends HTMLElement {
+export declare class HTMLClickWheelerElement extends HTMLElement {
   size?: number;
   constructor();
 }
@@ -12,7 +12,7 @@ interface ClickWheelerProps {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "click-wheeler": ClickWheeler;
+    "click-wheeler": HTMLClickWheelerElement;
   }
 
   namespace JSX {

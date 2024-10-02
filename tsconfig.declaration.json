@@ -16,6 +16,7 @@
     "outDir": "./dist/types"
   },
   "files": [
-    "src/types.ts"
+    "src/types.ts",
+    "src/types-react.ts"
   ]
 }

@@ -6,9 +6,13 @@ export default defineConfig({
     lib: {
       entry: {
         "click-wheeler": "./src/click-wheeler/index.ts",
+        "click-wheeler-react": "./src/click-wheeler/react.ts",
       },
       formats: ["es"],
-      fileName: "click-wheeler.[format]",
+      fileName: (format, entryName) => `${entryName}.${format}.js`,
+    },
+    rollupOptions: {
+      external: ["react"],
     },
   },
 });
