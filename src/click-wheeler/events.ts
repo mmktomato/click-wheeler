@@ -17,7 +17,16 @@ export interface TapEventDetail {
 export type ClickWheelerRotateEvent = CustomEvent<RotateEventDetail>;
 export type ClickWheelerTapEvent = CustomEvent<TapEventDetail>;
 
-export const dispatchRotateEvent = (target: LitElement, detail: RotateEventDetail) => {
+export const dispatchRotateEvent = (
+  e: PointerEvent,
+  target: LitElement,
+  detail: RotateEventDetail,
+  requireShiftToRotate: boolean,
+) => {
+  if (requireShiftToRotate && !e.shiftKey) {
+    return;
+  }
+
   const ev = new CustomEvent<RotateEventDetail>("rotate", {
     bubbles: true,
     composed: true,

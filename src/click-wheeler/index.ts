@@ -27,6 +27,9 @@ export class ClickWheeler extends LitElement {
   @property({ type: Number })
   size: number = 200;
 
+  @property({ type: Boolean })
+  requireShiftToRotate?: boolean = false;
+
   private prevPoint?: Point;
   private accDistance?: AccumulatedDistance;
   private longTapTimer?: number;
@@ -102,7 +105,7 @@ export class ClickWheeler extends LitElement {
 
       const velocity = Math.round(totalDistance.distance * 10) / 10;
       // const pressure = Math.round(e.pressure * 10) / 10;
-      dispatchRotateEvent(this, { direction, velocity });
+      dispatchRotateEvent(e, this, { direction, velocity }, !!this.requireShiftToRotate);
     } finally {
       this.prevPoint = { x: e.x, y: e.y };
     }
