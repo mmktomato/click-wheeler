@@ -2,8 +2,9 @@ import {
   type ClickWheelerRotateEvent,
   type ClickWheelerTapEvent,
 } from "../src/click-wheeler/events";
+import { type HTMLClickWheelerElement } from "../src/types";
 
-const clickWheeler = document.querySelector("click-wheeler");
+const clickWheeler = document.querySelector<HTMLClickWheelerElement>("click-wheeler");
 
 (() => {
   const report = document.getElementById("report");
@@ -61,6 +62,23 @@ const clickWheeler = document.querySelector("click-wheeler");
       case "counter-clockwise":
         select("up");
         break;
+    }
+  });
+})();
+
+(() => {
+  const requireShiftToRotateCheckbox =
+    document.querySelector<HTMLInputElement>("#requireShiftToRotate");
+
+  if (clickWheeler) {
+    clickWheeler.requireShiftToRotate = requireShiftToRotateCheckbox?.checked;
+  }
+
+  requireShiftToRotateCheckbox?.addEventListener("change", e => {
+    if (e.currentTarget && e.currentTarget instanceof HTMLInputElement) {
+      if (clickWheeler) {
+        clickWheeler.requireShiftToRotate = e.currentTarget.checked;
+      }
     }
   });
 })();

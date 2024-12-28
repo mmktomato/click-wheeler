@@ -11,6 +11,10 @@ main {
   white-space: pre-wrap;
 }
 
+#requireShiftToRotate {
+  margin-top: 16px;
+}
+
 #list {
   list-style: none;
   margin: 0;
