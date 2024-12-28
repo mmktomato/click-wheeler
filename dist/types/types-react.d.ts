@@ -1,6 +1,7 @@
 import { type ClickWheelerRotateEvent, type ClickWheelerTapEvent } from "./click-wheeler/events";
 interface ReactClickWheelerComponentProps {
     size?: number;
+    requireShiftToRotate?: boolean;
     className?: string;
     onRotate?: (e: ClickWheelerRotateEvent) => void;
     onTap?: (e: ClickWheelerTapEvent) => void;

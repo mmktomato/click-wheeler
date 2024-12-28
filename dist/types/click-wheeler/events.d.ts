@@ -12,7 +12,7 @@ export interface TapEventDetail {
 }
 export type ClickWheelerRotateEvent = CustomEvent<RotateEventDetail>;
 export type ClickWheelerTapEvent = CustomEvent<TapEventDetail>;
-export declare const dispatchRotateEvent: (target: LitElement, detail: RotateEventDetail) => void;
+export declare const dispatchRotateEvent: (e: PointerEvent, target: LitElement, detail: RotateEventDetail, requireShiftToRotate: boolean) => void;
 export declare const handlePointerDownForTap: (eventTarget: LitElement, tapArea: TapArea, onEmitting: () => void) => number;
 export declare const handlePointerUpForTap: (eventTarget: LitElement, longTapTimer: number | undefined, tapArea: TapArea) => void;
 export declare const handlePointerLeaveForTap: (longTapTimer: number | undefined) => void;

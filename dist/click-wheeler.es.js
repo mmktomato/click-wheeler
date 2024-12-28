@@ -640,7 +640,10 @@ function n2(t2) {
 const forwardIcon = '<?xml version="1.0" encoding="utf-8"?>\n<svg width="20" height="20" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill="currentColor">\n  <path d="M15.5 3.5a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0V8.753l-6.267 3.636c-.54.313-1.233-.066-1.233-.697v-2.94l-6.267 3.636C.693 12.703 0 12.324 0 11.693V4.308c0-.63.693-1.01 1.233-.696L7.5 7.248v-2.94c0-.63.693-1.01 1.233-.696L15 7.248V4a.5.5 0 0 1 .5-.5z"/>\n</svg>';
 const menuIcon = '<svg width="42" height="18" viewBox="0 0 42 18" xmlns="http://www.w3.org/2000/svg">\n  <text\n    fill="currentColor"\n    font-size="14"\n    font-family="Verdana"\n    text-anchor="start"\n    dominant-baseline="text-before-edge"\n    textLength="42"\n  >\n    MENU\n  </text>\n</svg>';
 const playPauseIcon = '<?xml version="1.0" encoding="UTF-8"?>\n<svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">\n  <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">\n    <g fill="currentColor" fill-rule="nonzero">\n      <path d="M3.65140982,6.61646219 L11.1528787,11.3693959 C11.3672679,11.5052331 11.4827597,11.722675 11.4993749,11.9464385 L11.4984593,7.25 C11.4984593,6.83578644 11.8342458,6.5 12.2484593,6.5 L15.2484593,6.5 C15.6626729,6.5 15.9984593,6.83578644 15.9984593,7.25 L15.9984593,16.75 C15.9984593,17.1642136 15.6626729,17.5 15.2484593,17.5 L12.2484593,17.5 C11.8342458,17.5 11.4984593,17.1642136 11.4984593,16.75 L11.4993494,12.0597632 C11.4826318,12.2835468 11.3670166,12.5009613 11.1525249,12.6366956 L3.65105604,17.3837618 C3.15168144,17.6997752 2.5,17.3409648 2.5,16.75 L2.5,7.25 C2.5,6.65884683 3.15205264,6.30006928 3.65140982,6.61646219 Z M21.2477085,6.50037474 C21.661922,6.50037474 21.9977085,6.83616118 21.9977085,7.25037474 L21.9977085,16.7496253 C21.9977085,17.1638388 21.661922,17.4996253 21.2477085,17.4996253 L18.2477085,17.4996253 C17.8334949,17.4996253 17.4977085,17.1638388 17.4977085,16.7496253 L17.4977085,7.25037474 C17.4977085,6.83616118 17.8334949,6.50037474 18.2477085,6.50037474 L21.2477085,6.50037474 Z" />\n    </g>\n  </g>\n</svg>';
-const dispatchRotateEvent = (target, detail) => {
+const dispatchRotateEvent = (e2, target, detail, requireShiftToRotate) => {
+  if (requireShiftToRotate && !e2.shiftKey) {
+    return;
+  }
   const ev = new CustomEvent("rotate", {
     bubbles: true,
     composed: true,
@@ -748,6 +751,7 @@ let ClickWheeler = class extends h {
   constructor() {
     super();
     this.size = 200;
+    this.requireShiftToRotate = false;
     this.disablePullToRefresh = (e2) => {
       e2.preventDefault();
     };
@@ -794,7 +798,7 @@ let ClickWheeler = class extends h {
         }
         this.accDistance = void 0;
         const velocity = Math.round(totalDistance.distance * 10) / 10;
-        dispatchRotateEvent(this, { direction, velocity });
+        dispatchRotateEvent(e2, this, { direction, velocity }, !!this.requireShiftToRotate);
       } finally {
         this.prevPoint = { x: e2.x, y: e2.y };
       }
@@ -965,6 +969,9 @@ ClickWheeler.styles = i$2`
 __decorateClass([
   n2({ type: Number })
 ], ClickWheeler.prototype, "size", 2);
+__decorateClass([
+  n2({ type: Boolean })
+], ClickWheeler.prototype, "requireShiftToRotate", 2);
 ClickWheeler = __decorateClass([
   t("click-wheeler")
 ], ClickWheeler);
