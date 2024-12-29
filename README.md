@@ -33,9 +33,10 @@ Note you have to install `react`.
 
 ## Attributes
 
-| Name   | Default value | Description |
-| :---   | :---          | :---        |
-| `size` | `200`         | Diameter of the component |
+| Name                   | Default value | Description |
+| :---                   | :---          | :---        |
+| `size`                 | `200`         | Diameter of the component |
+| `requireShiftToRotate` | `false`       | If `true`, `rotate` event is emitted only while shift key is pressed. |
 
 ## Events
 
