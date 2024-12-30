@@ -1,7 +1,3 @@
-import {
-  type ClickWheelerRotateEvent,
-  type ClickWheelerTapEvent,
-} from "../src/click-wheeler/events";
 import { type HTMLClickWheelerElement } from "../src/types";
 
 const clickWheeler = document.querySelector<HTMLClickWheelerElement>("click-wheeler");
@@ -14,8 +10,7 @@ const clickWheeler = document.querySelector<HTMLClickWheelerElement>("click-whee
       return;
     }
 
-    const { detail } = e as ClickWheelerRotateEvent;
-    const { direction, velocity } = detail;
+    const { direction, velocity } = e.detail;
     report.textContent = `direction = ${direction}\nvelocity = ${velocity}`;
   });
 
@@ -24,8 +19,7 @@ const clickWheeler = document.querySelector<HTMLClickWheelerElement>("click-whee
       return;
     }
 
-    const { detail } = e as ClickWheelerTapEvent;
-    const { type, tapArea } = detail;
+    const { type, tapArea } = e.detail;
     report.textContent = `type = ${type}\ntapArea = ${tapArea}`;
   });
 })();
@@ -54,8 +48,7 @@ const clickWheeler = document.querySelector<HTMLClickWheelerElement>("click-whee
   };
 
   clickWheeler?.addEventListener("rotate", e => {
-    const direction = (e as ClickWheelerRotateEvent).detail.direction;
-    switch (direction) {
+    switch (e.detail.direction) {
       case "clockwise":
         select("down");
         break;
